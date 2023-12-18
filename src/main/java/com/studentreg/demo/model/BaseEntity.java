@@ -25,7 +25,7 @@ public class BaseEntity implements Serializable {
 	private Integer id;
 	
 	@CreationTimestamp
-	@Column
+	@Column(nullable = false, updatable = false)
 	private Date createdAt;
 	
 	@UpdateTimestamp

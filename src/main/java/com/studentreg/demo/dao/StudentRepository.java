@@ -8,7 +8,7 @@ import com.studentreg.demo.model.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Integer> {
     
-    List<Student> findByDeleteFlagFalse();
+    List<Student> findByDeleteFlagFalseOrderByCreatedAtDesc();
 
     @Override
     default void deleteById(Integer id) {

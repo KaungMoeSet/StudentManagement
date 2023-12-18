@@ -17,7 +17,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAllStudents() {
-        return studentRepository.findByDeleteFlagFalse();
+        return studentRepository.findByDeleteFlagFalseOrderByCreatedAtDesc();
     }
 
     @Override
