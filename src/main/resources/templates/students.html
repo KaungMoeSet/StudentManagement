@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Management</title>
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css} " />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+    <div class="container-fluid"> 
+        <div class="my-3 border border-black border-2 rounded-2 py-2 px-2 w-25 text-center">
+            Student Registration Form
+        </div>
+        <form th:action="@{/students/new}" th:object="${student}" method="post">
+            <div class="container mx-5 border border-2 border-black my-2 rounded-2">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="my-3">
+                            <div class="d-flex justify-content-between">
+                                <label for="name" class="form-label mx-3">Student Name</label>
+                                <input type="text" class="form-control w-50" id="name" th:field="*{name}"/>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="mx-3" th:if="${#fields.hasErrors('name')}"></small>
+                                <small class="alert alert-danger py-2 w-50" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                            </div>
+                        </div>
+
+                        <div class="my-3">
+                            <div class="d-flex justify-content-between">
+                                <label for="age" class="form-label mx-3">Age</label>
+                                <input type="text" class="form-control w-50" id="age" th:field="*{age}"/>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="mx-3" th:if="${#fields.hasErrors('age')}"></small>
+                                <small class="alert alert-danger py-2 w-50" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></small>
+                            </div>
+                        </div>
+
+                        <div class="my-3">
+                            <div class="d-flex justify-content-between">
+                                <label for="course" class="form-label mx-3">Course</label>
+                                <select id="course" class="form-select w-50" th:field="*{course}">
+                                    <option th:each="course: ${courses}" th:value="${course.id}" th:text="${course.name}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="mx-3" th:if="${#fields.hasErrors('course')}"></small>
+                                <small class="alert alert-danger py-2 w-50" th:if="${#fields.hasErrors('course')}" th:errors="*{course}"></small>
+                            </div>
+                        </div>
+
+                        <div class="my-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="form-label mx-3">Gender</label>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-6" th:each="gender: ${genders}">
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" th:field="*{gender}" th:name="gender"  id="female"
+                                                        th:value="${gender}" th:checked="${student.gender == gender}" />
+                                                <label for="female" class="form-check-label" th:for="${'gender_' + enumValue}" 
+                                                        th:text="${#strings.capitalize(gender.toString().toLowerCase())}"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="mx-3" th:if="${#fields.hasErrors('gender')}"></small>
+                                <small class="alert alert-danger py-2 w-50" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></small>
+                            </div>
+                        </div>
+
+                        <div class="my-3">
+                            <div class="d-flex justify-content-between">
+                                <label for="dob" class="form-label mx-3">Date Of Birth</label>
+                                <input type="date" class="form-control w-50" id="dob" th:field="*{birthday}" placeholder="MM/dd/yyyy"/>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="mx-3" th:if="${#fields.hasErrors('birthday')}"></small>
+                                <small class="alert alert-danger py-2 w-50" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></small>
+                            </div>
+                        </div>
+
+                        <div class="my-3">
+                            <div class="d-flex justify-content-between">
+                                <label for="address" class="form-label mx-3">Address</label>
+                                <textarea name="" id="address" cols="10" rows="5" class="form-control w-50" th:field="*{address}"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="mx-3" th:if="${#fields.hasErrors('address')}"></small>
+                                <small class="alert alert-danger py-2 w-50" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="id" th:field="*{id}">
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="mx-5 my-3">
+                        <button type="submit" class="btn btn-secondary mx-3"> Submit </button>
+                        <a th:href="@{/students}" type="reset" class="btn btn-secondary"> Cancel </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div th:if="${students.size() > 0}" class="mx-3">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="text-center">Name</th>
+                        <th scope="col" class="text-center">Age</th>
+                        <th scope="col" class="text-center">Course</th>
+                        <th scope="col" class="text-center">Gender</th>
+                        <th scope="col" class="text-center">Birth Date</th>
+                        <th scope="col" class="text-center">Address</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="student, counter : ${students}">
+                        <td scope="col" class="text-center">[[${student.name}]]</td>
+                        <td scope="col" class="text-center">[[${student.age}]]</td>
+                        <td scope="col" class="text-center">[[${student.course.name}]]</td>
+                        <td scope="col" class="text-center">[[${student.gender}]]</td>
+                        <td scope="col" class="text-center">[[${#dates.format(student.birthday, 'MM/dd/yyyy')}]]</td>
+                        <td scope="col" class="text-center">[[${student.address}]]</td>
+                        <td scope="col" class="text-center">
+                            <a th:href="@{/students/{id}(id=${student.id})}" class="text-dark btn">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a th:href="@{/students/delete/{id}(id=${student.id})}" id="btnDelete" class="text-dark btn">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                            <a th:href="@{/students/generateReport}" target="_blank" id="print" class="text-dark btn">
+                                <i class="fa-solid fa-print"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            
+        <div th:unless="${students.size() > 0}" class="my-3 bg-info text-center py-2">
+            <span class="d-block" style="font-size: 1.2em;">No Students Found!</span>
+        </div>
+    </div>
+</body>
